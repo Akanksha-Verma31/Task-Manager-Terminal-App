@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CLI Task Manager</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #terminal {
+        background-color: black;
+        color: white;
+        font-family: monospace;
+        font-size: 14px;
+        line-height: 1.5;
+        overflow: auto;
+        height: 500px;
+      }
+
+      #terminal::selection {
+        background-color: white;
+        color: black;
+      }
+
+      #input {
+        background-color: gray;
+        border: none;
+        color: white;
+        font-family: monospace;
+        font-size: 14px;
+        line-height: 1.5;
+        outline: none;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 90%;
+      }
+
+      #input:focus {
+        background-color: black;
+      }
+
+      .command {
+        color: cyan;
+      }
+
+      .output {
+        color: white;
+      }
+      .error{
+        color:red;
+      }
+      #clear{
+        color:black;
+        width:8rem;
+        height:2rem;
+        background-color:rgb(145, 255, 0);
+      }
+      #clear:hover{
+        background-color:rgb(24, 228, 5) ;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="background-color: black;">
+    <div id="terminal">
+      <h1 style="text-align: center;">Welcome to Task Manager</h1>
+      *******************************************************************************************************************************************************************************************************
+      <p> <span style="color:cyan;font-weight:bold">$ list</span> - To list all the tasks<br/>
+      <span style="color:cyan;font-weight:bold">$ add &lt;key> &lt;task></span> - To add your task<br/>
+      <span style="color:cyan;font-weight:bold">$ update &lt;key> &lt;task></span> - To edit existing task<br/>
+      <span style="color:cyan;font-weight:bold">$ get &lt;key></span> - To list the specific task using key<br/>
+      <span style="color:cyan;font-weight:bold">$ delete &lt;key></span> - To delete a specific task using key</p>
+    </div>
+    <input type="text" id="input" autocomplete="off" autofocus />
+    <button id="clear">Clear</button>
+  </div>
+    <script>
+      const socket = new WebSocket("ws://localhost:3000/api");
+      const terminal = document.getElementById("terminal");
+      const input = document.getElementById("input");
+      const clearBtn = document.getElementById("clear");
+
+      socket.onopen = () => {
+        logMessage("WebSocket connection established");
+      };
+
+      socket.onmessage = (event) => {
+        logMessage(event.data);
+      };
+
+      input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          const inputText = input.value.trim();
+          if (inputText !== "") {
+            logMessage("$ " + inputText, "command");
+            socket.send(inputText);
+            input.value = "";
+          }
+        }
+      });
+
+      clearBtn.addEventListener("click", () => {
+        terminal.innerHTML = "";
+      });
+
+      function logMessage(message, type) {
+        const messageElement = document.createElement("div");
+        messageElement.innerText = message;
+        if(message.startsWith("Invalid")|| message.startsWith("No")){
+          messageElement.classList.add("error");
+        }else if (type === "command") {
+          messageElement.classList.add("command");
+        } else {
+          messageElement.classList.add("output");
+        }
+        terminal.appendChild(messageElement);
+        terminal.scrollTop = terminal.scrollHeight;
+      }
+
+      input.focus();
+    </script>
+  </body>
+</html>

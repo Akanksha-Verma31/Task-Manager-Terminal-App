@@ -171,7 +171,7 @@ const server = http.createServer((req, res) => {
     res.end(data);
   });
 });
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 app.locals.PORT = PORT;
 server.listen(process.env.PORT, () => {
   console.log(`Server listening on port ${process.env.PORT}`);

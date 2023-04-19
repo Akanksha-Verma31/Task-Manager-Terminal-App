@@ -1,5 +1,5 @@
-const { myVariable } = require('./app.js');
-const socket = new WebSocket(`ws://localhost:${myVariable}/api`);
+
+const socket = new WebSocket(`ws://task-manager-terminal-app-production.up.railway.app/api`);
 const terminal = document.getElementById("terminal");
 const input = document.getElementById("input");
 const clearBtn = document.getElementById("clear");

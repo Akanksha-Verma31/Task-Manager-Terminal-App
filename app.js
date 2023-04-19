@@ -1,4 +1,4 @@
-import { myVariable } from './index.js';
+const { myVariable } = require('./app.js');
 const socket = new WebSocket(`ws://localhost:${myVariable}/api`);
 const terminal = document.getElementById("terminal");
 const input = document.getElementById("input");

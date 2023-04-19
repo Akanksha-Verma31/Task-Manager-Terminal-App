@@ -173,8 +173,7 @@ const server = http.createServer((req, res) => {
 });
 const myVariable = process.env.PORT;
 
-// Export the variable
-export { myVariable };
+module.exports = { myVariable };
 server.listen(process.env.PORT, () => {
   console.log(`Server listening on port ${process.env.PORT}`);
 });

@@ -1,4 +1,4 @@
-const socket = new WebSocket(`ws://localhost:${process.env.PORT}/api`);
+const socket = new WebSocket(`ws://localhost:${PORT}/api`);
 const terminal = document.getElementById("terminal");
 const input = document.getElementById("input");
 const clearBtn = document.getElementById("clear");

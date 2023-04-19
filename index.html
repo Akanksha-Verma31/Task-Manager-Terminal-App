@@ -75,7 +75,7 @@
     <button id="clear">Clear</button>
   </div>
     <script>
-      const socket = new WebSocket("ws://localhost:3000/api");
+      const socket = new WebSocket(`ws://localhost:${process.env.PORT}/api`);
       const terminal = document.getElementById("terminal");
       const input = document.getElementById("input");
       const clearBtn = document.getElementById("clear");
